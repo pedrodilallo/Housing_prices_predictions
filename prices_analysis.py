@@ -14,7 +14,16 @@
 # ---
 
 import pandas as pd
+import numpy as np
 
-print("qualquer_coisa")
+train = pd.read_csv("data/train.csv")
+test = pd.read_csv("data/test.csv")
+
+display(train.sample(7))
+display(test.sample(7))
+
+train_num_values = train.select_dtypes(["int64","float64"])
+train_disc_values = train.select_dtypes(["object"])
+train_disc_values.sample(5)
 
 
