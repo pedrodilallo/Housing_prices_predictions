@@ -1,4 +1,4 @@
-# Competition Description
+# Kaggle Competition Description
 
 ![kaggle-img](https://storage.googleapis.com/kaggle-competitions/kaggle/5407/media/housesbanner.png)
 
