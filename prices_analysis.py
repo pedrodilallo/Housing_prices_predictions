@@ -69,25 +69,43 @@ x_pca = pca_train.transform(scaled_data)
 print(x_pca.shape)
 
 
-# -
+# +
 # Creating a heatmap to visualize the pca 
 map = pd.DataFrame(pca_train.components_,columns = train_num_values.columns)
 plt.figure(figsize = (12,6))
 sns.heatmap(map)
 
-# +
+
+# Explaining the variance
+print(pca_train.explained_variance_ratio_)
+display(pd.DataFrame(pca_train.components_,columns=train_num_values.columns,index = [f'PC-{x}' for x in range(1,6)]))
+
+# -
+
 train_num_values["YrSold"] = train_num_values["YrSold"].astype("object")
 saleprice = train_num_values.groupby("YrSold")["SalePrice"].mean()
 plt.plot(saleprice)
 
-# -
 # # Correlogram
 
 # Numerical variables only
 
+# +
 plt.figure(figsize=(30,20))
+
+
 sns.heatmap(train_num_values.corr(), annot=True, cmap='coolwarm')
 plt.show()
+
+#creating another df 
+LastCorr = pd.DataFrame(data = train_num_values.corr()["SalePrice"], columns = ["SalePrice"], index = train_num_values.corr().columns )
+
+sns.heatmap(LastCorr, annot=True, cmap='coolwarm')
+plt.show()
+
+        
+        
+# -
 
 # # Categorical variables
 
