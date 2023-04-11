@@ -15,15 +15,47 @@
 
 import pandas as pd
 import numpy as np
+from sklearn.decomposition import PCA
+
 
 train = pd.read_csv("data/train.csv")
 test = pd.read_csv("data/test.csv")
 
-display(train.sample(7))
-display(test.sample(7))
+display(train.sample(3))
+display(test.sample(3))
+
+# # Separating in two dataframes
+#
+# to make our analisys easier, we decided to split the data frame in two: one with all the numerical values, to make correlation and principal component analysis and another with all the qualitative or categorical data
 
 train_num_values = train.select_dtypes(["int64","float64"])
 train_disc_values = train.select_dtypes(["object"])
-train_disc_values.sample(5)
+
+# # Quantitative Analysis
+
+# +
+# making  a PCA with the numeric values of the dataframe 
+from sklearn.preprocessing import StandardScaler
+
+# scaling the data for unit variance
+train_num_values_no_NA = train_num_values.dropna()
+scaler = StandardScaler()
+scaler.fit(train_num_values_no_NA)
+scaled_data = scaler.transform(train_num_values_no_NA)
+
+#fitting the pca
+pca_train = PCA(n_components = 5)
+pca_train.fit(scaled_data)
+
+# checking data
+x_pca = pca_train.transform(scaled_data)
+print(x_pca.shape)
+
+
+# -
+
+
+
+
 
 
