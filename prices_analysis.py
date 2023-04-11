@@ -18,6 +18,7 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
+# pd.options.display.max_rows = 200
 
 train = pd.read_csv("data/train.csv")
 test = pd.read_csv("data/test.csv")
@@ -25,20 +26,23 @@ test = pd.read_csv("data/test.csv")
 display(train.sample(3))
 display(test.sample(3))
 
-# # Sales price distribution
-
-sns.histplot(data=train["SalePrice"]);
-train["SalePrice"].describe()
-
 # # Cleaning train dataframe
 
+train.info()
+
 print("Percentage of empty values by column\n")
-print(f"{train.isna().sum() / len(train) * 100}")
-print(f"The dataframe has {len(train)} rows")
+print(f"{train.isna().sum() / len(train) * 100}\n")
+print(f"This dataframe has {len(train)} rows")
 
 # The variables Alley, PoolQC, Fence, MiscFeature have more than 80% of empty values, thus they could be droped
 
+train = train.drop(columns=["Alley", "PoolQC", "Fence", "MiscFeature"])
 
+# # Sales price distribution
+
+plt.figure(figsize=(10, 5))
+sns.histplot(data=train["SalePrice"])
+train["SalePrice"].describe()
 
 # # Separating in two dataframes
 #
@@ -75,12 +79,10 @@ map = pd.DataFrame(pca_train.components_,columns = train_num_values.columns)
 plt.figure(figsize = (12,6))
 sns.heatmap(map)
 
-# +
 train_num_values["YrSold"] = train_num_values["YrSold"].astype("object")
 saleprice = train_num_values.groupby("YrSold")["SalePrice"].mean()
 plt.plot(saleprice)
 
-# -
 # # Correlogram
 
 # Numerical variables only
@@ -94,8 +96,6 @@ plt.show()
 # Categorical columns
 
 train_disc_values.columns
-
-# There are 43 categorical variables
 
 len(train_disc_values.columns)
 
