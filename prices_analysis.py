@@ -25,14 +25,24 @@ test = pd.read_csv("data/test.csv")
 display(train.sample(3))
 display(test.sample(3))
 
-# # Separating in two dataframes
-#
-# to make our analisys easier, we decided to split the data frame in two: one with all the numerical values, to make correlation and principal component analysis and another with all the qualitative or categorical data
-
 # # Sales price distribution
 
 sns.histplot(data=train["SalePrice"]);
 train["SalePrice"].describe()
+
+# # Cleaning train dataframe
+
+print("Percentage of empty values by column\n")
+print(f"{train.isna().sum() / len(train) * 100}")
+print(f"The dataframe has {len(train)} rows")
+
+# The variables Alley, PoolQC, Fence, MiscFeature have more than 80% of empty values, thus they could be droped
+
+
+
+# # Separating in two dataframes
+#
+# to make our analisys easier, we decided to split the data frame in two: one with all the numerical values, to make correlation and principal component analysis and another with all the qualitative or categorical data
 
 train_num_values = train.select_dtypes(["int64","float64"])
 train_disc_values = train.select_dtypes(["object"])
@@ -70,11 +80,14 @@ train_num_values["YrSold"] = train_num_values["YrSold"].astype("object")
 saleprice = train_num_values.groupby("YrSold")["SalePrice"].mean()
 plt.plot(saleprice)
 
-
-
-
 # -
+# # Correlogram
 
+# Numerical variables only
+
+plt.figure(figsize=(30,20))
+sns.heatmap(train_num_values.corr(), annot=True, cmap='coolwarm')
+plt.show()
 
 # # Categorical variables
 
