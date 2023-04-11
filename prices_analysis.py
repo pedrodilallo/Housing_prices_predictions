@@ -37,6 +37,7 @@ print(f"This dataframe has {len(train)} rows")
 # The variables Alley, PoolQC, Fence, MiscFeature have more than 80% of empty values, thus they could be droped
 
 train = train.drop(columns=["Alley", "PoolQC", "Fence", "MiscFeature"])
+test = test.drop(columns=["Alley", "PoolQC", "Fence", "MiscFeature"])
 
 # # Sales price distribution
 
