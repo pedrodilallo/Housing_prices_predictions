@@ -41,6 +41,7 @@ train_disc_values = train.select_dtypes(["object"])
 
 # +
 # making  a PCA with the numeric values of the dataframe 
+display(train_num_values.sample(5))
 from sklearn.preprocessing import StandardScaler
 
 # scaling the data for unit variance
@@ -59,9 +60,20 @@ print(x_pca.shape)
 
 
 # -
+# Creating a heatmap to visualize the pca 
+map = pd.DataFrame(pca_train.components_,columns = train_num_values.columns)
+plt.figure(figsize = (12,6))
+sns.heatmap(map)
+
+# +
+train_num_values["YrSold"] = train_num_values["YrSold"].astype("object")
+saleprice = train_num_values.groupby("YrSold")["SalePrice"].mean()
+plt.plot(saleprice)
 
 
 
+
+# -
 
 
 # # Categorical variables
